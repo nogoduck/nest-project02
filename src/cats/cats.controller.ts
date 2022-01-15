@@ -9,7 +9,9 @@ import {
   Patch,
   Post,
   Put,
+  Req,
   UseFilters,
+  UseGuards,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,6 +24,9 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ReadOnlyCatDto } from './dto/cat.dto';
 import { AuthService } from '../auth/auth.service';
 import { LoginRequestDto } from '../auth/dto/login.request.dto';
+import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
+import { Request } from 'express';
+import { CurrentUser } from '../common/decorators/user.decorator';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -33,9 +38,10 @@ export class CatsController {
   ) {}
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getCurrentCat() {
-    return 'getCurrentCat';
+  getCurrentCat(@CurrentUser() cat) {
+    return cat.readOnlyData;
   }
 
   @ApiResponse({ status: 500, description: 'Server Error...' })
