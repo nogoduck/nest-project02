@@ -8,14 +8,15 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Cat } from './cats.schema';
 import { CatsRequestDto } from './dto/cats.request.dto';
+import { CatsRepository } from './cats.repository';
 
 @Injectable()
 export class CatsService {
-  constructor(@InjectModel(Cat.name) private catModel: Model<Cat>) {}
+  constructor(private readonly catsRepository: CatsRepository) {}
 
   async signUp(catsRequestDto: CatsRequestDto) {
     const { email, name, password } = catsRequestDto;
-    const isCatExist = await this.catModel.exists({ email });
+    const isCatExist = await this.catsRepository.existByEmail(email);
 
     if (isCatExist) {
       // UnauthorizedException을 사용하면 자동으로 403에러를 발생시킨다.
