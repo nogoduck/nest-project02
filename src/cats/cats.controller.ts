@@ -1,59 +1,52 @@
 import {
-    Controller,
-    Delete,
-    Get,
-    HttpException,
-    Param,
-    ParseIntPipe,
-    Patch,
-    Post,
-    Put,
-    UseFilters,
-    UseInterceptors,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Put,
+  UseFilters,
+  UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
-import {CatsService} from './cats.service';
-import {HttpExceptionFilter} from 'src/common/exceptions/http-exception.filter';
-import {PositiveIntPipe} from '../common/pipes/positiveInt.pipe';
-import {SuccessInterceptor} from 'src/common/interceptors/success.interceptor';
+import { CatsService } from './cats.service';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
+import { PositiveIntPipe } from '../common/pipes/positiveInt.pipe';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { CatsRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter)
 export class CatsController {
-    constructor(private readonly catsService: CatsService) {
-    }
+  constructor(private readonly catsService: CatsService) {}
 
-    @Get()
-    getAllCat() {
-        console.log("getAllCat")
-        return { cats: "getAllCat" };
-    }
+  @Get()
+  getCurrentCat() {
+    return 'getCurrentCat';
+  }
 
-    @Get(':id')
-    getOneCat(@Param('id', PositiveIntPipe) param: number) {
-        console.log("getOneCat")
-        console.log(param);
-        console.log(typeof param);
-        return `getOneCat - ${param}`;
-    }
+  @Post()
+  async signUp(@Body(ValidationPipe) catsRequestDto: CatsRequestDto) {
+    return this.catsService.signUp(catsRequestDto);
+  }
 
-    @Post()
-    createCat() {
-        return 'createCat';
-    }
+  @Post('login')
+  async login(@Body() body) {
+    return 'login';
+  }
 
-    @Put(':id')
-    updateCat() {
-        return 'updateCat';
-    }
+  @Post('logout')
+  async logout() {
+    return 'logout';
+  }
 
-    @Patch(':id')
-    updatePartialCat() {
-        return 'updatePartialCat';
-    }
-
-    @Delete(':id')
-    deleteCat() {
-        return 'deleteCat';
-    }
+  @Post('uplaod/cats')
+  async uploadCatImg() {
+    return 'uploadCatImg';
+  }
 }
