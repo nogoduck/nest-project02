@@ -8,6 +8,7 @@ import { CatsService } from './cats/cats.service';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import * as mongoose from 'mongoose';
 import { Cat, CatSchema } from './cats/cats.schema';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { Cat, CatSchema } from './cats/cats.schema';
     MongooseModule.forRoot(process.env.MONGO_URI),
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
     CatsModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CatsService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   private readonly isDev: boolean =
