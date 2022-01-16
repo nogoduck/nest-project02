@@ -45,4 +45,11 @@ export class CatsService {
     console.log(`newCat >> ${newCat}`);
     return newCat;
   }
+
+  async getAllCat() {
+    //DB에서 받아온 데이터를 그대로 반환하지 않고 필요한 데이터만 정재해서 보내준다.
+    const allCat = await this.catsRepository.findAll();
+    const readOnlyCats = allCat.map((cat) => cat.readOnlyData);
+    return readOnlyCats;
+  }
 }

@@ -9,6 +9,7 @@ import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import * as mongoose from 'mongoose';
 import { Cat, CatSchema } from './cats/cats.schema';
 import { AuthModule } from './auth/auth.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
     CatsModule,
     AuthModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

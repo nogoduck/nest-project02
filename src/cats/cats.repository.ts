@@ -35,4 +35,8 @@ export class CatsRepository {
   async create(cat: CatsRequestDto): Promise<Cat> {
     return await this.catModel.create(cat);
   }
+
+  async findAll() {
+    return await this.catModel.find();
+  }
 }
