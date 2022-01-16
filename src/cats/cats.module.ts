@@ -1,10 +1,11 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { CatsService } from './cats.service';
-import { CatsController } from './cats.controller';
+import { CatsService } from './services/cats.service';
+import { CatsController } from './controllers/cats.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Cat, CatSchema } from './cats.schema';
 import { CatsRepository } from './cats.repository';
 import { AuthModule } from '../auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 // 모듈은 기본적으로 프로바이더(공급자)를 캡슐화 해주기때문에 exports를 통해서 내보내야 사용할 수 있다.
 // exports를 하지 않고는 app.module의 providers 로 제공해줘야한다. (비추천 - 단일책임원칙이 깨짐)
@@ -14,6 +15,9 @@ import { AuthModule } from '../auth/auth.module';
 // https://docs.nestjs.com/fundamentals/circular-dependency
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './upload',
+    }),
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
     forwardRef(() => AuthModule),
   ],

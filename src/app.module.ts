@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { CatsService } from './cats/cats.service';
+import { CatsService } from './cats/services/cats.service';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import * as mongoose from 'mongoose';
 import { Cat, CatSchema } from './cats/cats.schema';
